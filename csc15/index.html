@@ -79,12 +79,12 @@
                       <option>Employee</option>
                     </select>
                   </div>
-						<form action="#" class="login-form">
+						<form action="login.php" class="login-form" method="POST">
 		      		<div class="form-group">
-		      			<input type="text" class="form-control rounded-left" placeholder="Username" required>
+		      			<input type="text" class="form-control rounded-left" name="user_name" placeholder="Username" required>
 		      		</div>
 	            <div class="form-group d-flex">
-	              <input type="password" class="form-control rounded-left" placeholder="Password" required>
+	              <input type="password" class="form-control rounded-left" name="user_password" placeholder="Password" required>
 	            </div>
 	            <div class="form-group">
 	            	<button type="submit" class="form-control btn btn-primary rounded submit px-3">Enter</button>
