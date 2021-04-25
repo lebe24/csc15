@@ -24,13 +24,13 @@ $row=mysqli_fetch_assoc($result);
 if($row["username"] == $username && $row["password"] == $password && $row["position"] == `Employer`){
    // echo "Login succesful";
    ?><html><script>alert('welcome <?php echo $username ?>');</script></html><?php
-    include ''; //employee page
+    include 'dash/dash_worker.html'; //employee page
 } else if($row["username"] == $username && $row["password"] == $password && $row["position"] == `HR`){
     ?><html><script>alert('welcome <?php echo $username ?>');</script></html><?php
-    include ''; // HR page
+    include 'dash/dash_hr.html'; // HR page
 }else if($row["username"] == $username && $row["password"] == $password && $row["position"] == `Manager`){
     ?><html><script>alert('welcome <?php echo $username ?>');</script></html><?php
-    include ''; // Manager page
+    include 'dash/dash_manager.html'; // Manager page
 }else {
     ?><html><script>alert('Login Unsuccesful');</script></html><?php
     include 'index.html'; // goes back to the home page, because login is unsuccesful
