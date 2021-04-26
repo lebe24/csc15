@@ -1,5 +1,8 @@
 <!Doctype html>
 <?php 
+
+session_start();
+
 //function to filter our input
 function validate($data){
     $data = trim($data);
@@ -12,7 +15,7 @@ $username = validate($_POST["user_name"]);
 $password = validate($_POST["user_password"]);
   
 //connect database
-require 'db_connect.php';
+require 'dash/db_connect.php';
 mysqli_select_db($conn,$dbname);
 
 //query database
@@ -24,13 +27,13 @@ $row=mysqli_fetch_assoc($result);
 if(($row["username"] == $username && $row["password"] == $password) && $row["position"] == 'Employer'){
     // echo "Login succesful";
     ?><html><script>alert('welcome <?php echo $username ?>');</script></html><?php
-     include '../dash_worker.html'; //employee page
+     header("Location: dash/dash_worker.php"); //employee page
  } else if(($row["username"] == $username && $row["password"] == $password) && $row["position"] == 'HR'){
      ?><html><script>alert('welcome <?php echo $username ?>');</script></html><?php
-     include '../dash_hr.html'; // HR page
+     header("Location: dash/dash_hr.php"); // HR page
  }else if(($row["username"] == $username && $row["password"] == $password) && $row["position"] == 'Manager'){
      ?><html><script>alert('welcome <?php echo $username ?>');</script></html><?php
-     include '../dash_manager.html'; // Manager page
+     header("Location: dash/dash_mg.php"); // Manager page
  }else {
      ?><html><script>alert('Login Unsuccesful');</script></html><?php
      include 'index.html'; // goes back to the home page, because login is unsuccesful
