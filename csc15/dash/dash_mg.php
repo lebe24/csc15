@@ -138,17 +138,17 @@
 					<div class="profile-tab-nav border-right">
 					<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 						<a class="nav-link active" id="account-tab" data-toggle="pill" href="#inventory" role="tab" aria-controls="account" aria-selected="true">
-							<i class="la la-database text-center mr-1"></i> 
+							<i class="fa fa-home text-center mr-1"></i> 
 							Inventory
 						</a>
 						<a class="nav-link" id="password-tab" data-toggle="pill" href="#assets" role="tab" aria-controls="password" aria-selected="false">
-							<i class="la la-user text-center mr-1"></i> 
-							Employee
+							<i class="fa fa-key text-center mr-1"></i> 
+							request
 						</a>
 						
 						<a class="nav-link" id="application-tab" data-toggle="pill" href="#chat" role="tab" aria-controls="application" aria-selected="false">
-							<i class="la la-envelope text-center mr-1"></i> 
-							chat
+							<i class="fa fa-tv text-center mr-1"></i> 
+							Chat
 						</a>
 						<li class="nav-item update-pro">
 							<button  data-toggle="modal" data-target="../index.html">
@@ -228,49 +228,150 @@
 					</div>
 				</div>
 
-				<div class="content tab-pane fade" id="assets" role="tabpanel" aria-labelledby="password-tab">
-				<div class="content">
-                    <form>
-                <!-- Grid row -->
-                <div class="form-row">
-                    <!-- Default input -->
-                    <div class="form-group col-md-6">
-                    <label for="inputEmail4">Name</label>
-                    <input type="name" class="form-control" id="inputEmail4" placeholder="name">
-                    </div>
-                    <!-- Default input -->
-                    <div class="form-group col-md-6">
-                    <label for="inputPassword4">Password</label>
-                    <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
-                    </div>
-                </div>
-                <!-- Grid row -->
+				<!-- Modal Assets -->
+				<div class = "modal fade" id="myModal" role="dialog">
+					
+				</div>
 
-                <!-- Default input -->
-                <div class="form-group">
-                    <label for="inputAddress">Address</label>
-                    <input type="text" class="form-control" id="inputAddress" placeholder="Unilag">
-                </div>
-                <!-- Grid row -->
-                <div class="form-row">
-                    <!-- Default input -->
-                    <div class="form-group col-md-6">
-                    <label for="inputCity">City</label>
-                    <input type="text" class="form-control" id="inputCity" placeholder="Unilag">
-                    </div>
-                    <!-- Default input -->
-                    <div class="form-group col-md-6">
-                    <label for="inputZip">Phone</label>
-                    <input type="text" class="form-control" id="inputZip" placeholder="phone">
-                    </div>
-                </div>
-                <!-- Grid row -->
-                <button type="submit" class="btn btn-primary btn-md">Employ</button>
-                </form>
-         </div>
+				<div class="content tab-pane fade" id="assets" role="tabpanel" aria-labelledby="password-tab">
+				<div class="container-fluid">
+						<h4 class="page-title">Assets</h4>
+						<div class="row">
+
+								<div class="container">
+						
+									<table class="table">
+										<thead>
+											<tr>
+												<th>Items</th>
+												<th>worker</th>
+												<th>Time</th>
+												<th>Stock Id</th>
+												<th>Actions</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>
+													<div class="user-info">
+														<div class="user-info__img">
+															<img src="../dash/assets/img/cabinet.jpeg" alt="User Img">
+														</div>
+														<div class="user-info__basic">
+															<h5 class="mb-0">Cabinet Item</h5>
+														</div>
+													</div>
+												</td>
+												<td>
+													<span >KOSI</span>
+												</td>
+												<td>
+													<h6 class="mb-0">06:00 PM</h6>
+													<small>php date</small>
+												</td>
+												<td>
+													<h6 class="mb-0">#91 9876543215</h6>
+													<a href="#!"><small>Contact</small></a>
+												</td>
+												
+												<td>
+													<div class="dropdown open">
+														<a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
+																aria-expanded="false">
+																	<i class="fa fa-ellipsis-v"></i>
+														</a>
+														<div class="dropdown-menu" aria-labelledby="triggerId1">
+															<a class="dropdown-item text-danger" href="#"><i class="la la-close mr-1"></i> denie</a>
+															<a class="dropdown-item text-success" href="#"><i class="la la-mark mr-1"></i> accept</a>
+														</div>
+													</div>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<div class="user-info">
+														<div class="user-info__img">
+															<img src="../dash/assets/img/frige.jpeg" alt="User Img">
+														</div>
+														<div class="user-info__basic">
+															<h5 class="mb-0">Frige Item</h5>
+														</div>
+													</div>
+												</td>
+												<td>
+													<span >Tizzy</span>
+												</td>
+												<td>
+													<h6 class="mb-0">06:00 PM</h6>
+													<small>2 Feb 2021</small>
+												</td>
+												<td>
+													<h6 class="mb-0">#91 9876543215</h6>
+													<a href="#!"><small>Contact</small></a>
+												</td>
+												
+												<td>
+													<div class="dropdown open">
+														<a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
+																aria-expanded="false">
+																	<i class="fa fa-ellipsis-v"></i>
+														</a>
+														<div class="dropdown-menu" aria-labelledby="triggerId1">
+                                                        <a class="dropdown-item text-danger" href="#"><i class="la la-close mr-1"></i> denie</a>
+															<a class="dropdown-item text-success" href="#"><i class="la la-mark mr-1"></i> accept</a>
+														</div>
+													</div>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<div class="user-info">
+														<div class="user-info__img">
+															<img src="../dash/assets/img/ac.jpeg" alt="User Img">
+														</div>
+														<div class="user-info__basic">
+															<h5 class="mb-0">Ac Item</h5>
+															
+														</div>
+													</div>
+												</td>
+												<td>
+													<span>KOSI</span>
+												</td>
+												<td>
+													<h6 class="mb-0">06:00 PM</h6>
+													<small>30 april 2021</small>
+												</td>
+												<td>
+													<h6 class="mb-0">#91 9876543215</h6>
+													<a href="#!"><small>Contact</small></a>
+												</td>
+												<td>
+													<div class="dropdown open">
+														<a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
+																aria-expanded="false">
+																	<i class="fa fa-ellipsis-v"></i>
+														</a>
+														<div class="dropdown-menu" aria-labelledby="triggerId1">
+                                                        <a class="dropdown-item text-danger" href="#"><i class="la la-close mr-1"></i> denie</a>
+															<a class="dropdown-item text-success" href="#"><i class="la la-mark mr-1"></i> accept</a>
+														</div>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</section>
+
+							<!-- php script -->
+						</div>
+					</div>
+				</div>
+
+			</div>
 		</div>
 	</div>
-	</script>
 </body>
 <script src="assets/js/core/jquery.3.2.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>

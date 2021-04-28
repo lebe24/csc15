@@ -139,16 +139,16 @@
 					<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 						<a class="nav-link active" id="account-tab" data-toggle="pill" href="#inventory" role="tab" aria-controls="account" aria-selected="true">
 							<i class="fa fa-home text-center mr-1"></i> 
-							Account
+							Inventory
 						</a>
 						<a class="nav-link" id="password-tab" data-toggle="pill" href="#assets" role="tab" aria-controls="password" aria-selected="false">
 							<i class="fa fa-key text-center mr-1"></i> 
-							Password
+							Assets
 						</a>
 						
 						<a class="nav-link" id="application-tab" data-toggle="pill" href="#chat" role="tab" aria-controls="application" aria-selected="false">
 							<i class="fa fa-tv text-center mr-1"></i> 
-							Application
+							Chat
 						</a>
 						<li class="nav-item update-pro">
 							<button  data-toggle="modal" data-target="../index.html">
