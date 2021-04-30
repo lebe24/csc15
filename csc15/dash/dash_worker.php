@@ -1,7 +1,24 @@
 <?php 
+	session_start();
+	//connect database 
+	require 'db_connect.php';
+	mysqli_select_db($conn,$dbname);
 
- session_start();
- include 'db_connect.php';
+	$sql = "SELECT * FROM `office items` ";
+	$result = mysqli_query($conn,$sql);
+	$result = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+	//submitting the requests to the database
+	if (isset($_POST['submit'])){
+		$sql = "INSERT INTO requests2 (emp_id,item_id,quantity) VALUES ('".$_SESSION['emp_id']."', '".$_POST['item-id']."', '".$_POST['quantity']."')";
+		if(mysqli_query($conn,$sql)){
+			?><html><script>alert('request successful');</script></html><?php
+		}else{
+			?><html><script>alert('Error: <?php mysqli_error($conn)?>');</script></html><?php
+		};
+	};
+
+	mysqli_close($conn);
 ?>
 
 <html>
@@ -124,7 +141,7 @@
 						<div class="info">
 							<a class="" data-toggle="collapse" href="#collapseExample" aria-expanded="true">
 								<span>
-								<?php $row['username']?>
+								<?php echo $_SESSION['username'];?>
 
 								</span>
 							</a>
@@ -139,22 +156,26 @@
 					<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 						<a class="nav-link active" id="account-tab" data-toggle="pill" href="#inventory" role="tab" aria-controls="account" aria-selected="true">
 							<i class="fa fa-home text-center mr-1"></i> 
-							Inventory
+							Account
 						</a>
 						<a class="nav-link" id="password-tab" data-toggle="pill" href="#assets" role="tab" aria-controls="password" aria-selected="false">
 							<i class="fa fa-key text-center mr-1"></i> 
-							Assets
+							Password
 						</a>
 						
 						<a class="nav-link" id="application-tab" data-toggle="pill" href="#chat" role="tab" aria-controls="application" aria-selected="false">
 							<i class="fa fa-tv text-center mr-1"></i> 
-							Chat
+							Application
 						</a>
+
+						<!-- logging the user out -->
 						<li class="nav-item update-pro">
-							<button  data-toggle="modal" data-target="../index.html">
-								<i class="la la-hand-pointer-o"></i>
-								<p>Log Out</p>
-							</button>
+							<form action="../logout.php" method= "POST">
+								<button  type = "submit" name= "logout" > 
+									<i class="la la-hand-pointer-o"></i>
+									<p>Log Out</p>
+								</button>
+							</form>
 						</li>
 					</div>
 				</div>
@@ -166,72 +187,48 @@
 						<h4 class="page-title">Inventory in DataBase</h4>
 						<div class="row">
 							<div class="col-md-12">
-								<div class="card">
-									<div class="card-header">
-											<img id="img6" src="assets/img/image.jpeg" width="250" height="200" alt="Psychopomp" />
-											<a class="card-description" href="https" id="btn" onclick="myBtn(document.getElementById('img6').src,document.getElementById('lp').innerHTML)" data-toggle="modal" data-target="#myModal">
-												<h2 id="lp">Laptop</h2> 
-											<p>Number of item in stock</p>
-										</a>
-									</div>
-								</div>
-								<div class="card">
-									<div class="card-header">
-											<img id="img5" src="assets/img/frige.jpeg" width="250" height="200" alt="Psychopomp" />
-											<a class="card-description" href="https" id="btn" onclick="myBtn(document.getElementById('img5').src,document.getElementById('reg').innerHTML)" data-toggle="modal" data-target="#myModal">
-												<h2 id="reg">Refrigerator</h2>
-											<p>Number of item in stock</p> 
-											<!-- referrence the php stock in the db -->										</a>
-									</div>
-								</div>
-								<div class="card">
-									<div class="card-header">
-											<img id="img4" src="assets/img/funiture.jpeg" width="250" height="200" alt="Psychopomp" />
-											<a class="card-description" href="https" id="btn" onclick="myBtn(document.getElementById('img4').src,document.getElementById('fn').innerHTML)" data-toggle="modal" data-target="#myModal">
-												<h2 id="fn">Funiture</h2>
-												<p>Number of item in stock</p> 
-												<!-- referrence the php stock in the db -->
+							
+							<!-- displaying the items from the database -->
+								<?php
+									for($i=0; $i<count($result); $i++){
+										echo '<div class="card">
+										<div class="card-header">
+												<img id="img6" src="'.$result[$i]['img'].'" width="250" height="200" alt="Psychopomp" />
+												<a class="card-description" href="https" id="btn" data-toggle="modal" data-target="#myModal'.$i.'">
+													<h2 id="lp">'.$result[$i]['Item'].'</h2> 
+												<p style ="font-size: 20px";>Number of item in stock: '.$result[$i]['Quantity'].'</p>
 											</a>
+										</div>
 									</div>
-								</div>
-								<div class="card">
-									<div class="card-header">
-											<img  id="img3" src="assets/img/ac.jpeg" width="250" height="200" alt="Psychopomp" />
-											<a class="card-description" href="https" id="btn" onclick="myBtn(document.getElementById('img3').src,document.getElementById('ar').innerHTML)" data-toggle="modal" data-target="#myModal">
-												<h2 id="ar">Air Condition</h2>
-												<p>Number of item in stock</p> 
-												<!-- referrence the php stock in the db -->										</a>
+									<div class = "modal fade" id="myModal'.$i.'" role="dialog">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="row justify-content-center">
+													<div class="login-wrap p-4 p-md-5">
+														<img src='.$result[$i]['img'].' width="250" height="200" alt="Psychopomp" />
+														<div>
+															<h2>'.$result[$i]['Item'].'</h2>
+															<form action="dash_worker.php" method="POST">
+																<input type="hidden" name="item-id" value="'.$result[$i]['id'].'"> 
+																Quantity: <input type="text" name="quantity">
+																<input class="btn-primary" name ="submit" type="submit">
+															</form>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
 									</div>
-								</div>
-								<div class="card">
-									<div class="card-header">
-											<img id="img2" src="assets/img/printer.jpeg" width="250" height="200" alt="Psychopomp" />
-											<a class="card-description" href="https" id="btn" onclick="myBtn(document.getElementById('img2').src,document.getElementById('hc').innerHTML)" data-toggle="modal" data-target="#myModal">
-												<h2 id="hc">Printer</h2>
-												<p>Number of item in stock</p> 
-												<!-- referrence the php stock in the db -->
-										</a>
-									</div>
-								</div>
-								<div class="card">
-									<div class="card-header">
-										<img  id ="img" src="assets/img/cabinet.jpeg" width="250" height="200" alt="Psychopomp" />
-										 <a id="btn"  onclick="myBtn(document.getElementById('img').src,document.getElementById('h2').innerHTML)" data-toggle="modal" data-target="#myModal">
-										<h2 id="h2">Cabinet</h2>
-										<p>Number of item in stock</p> 
-										<!-- referrence the php stock in the db -->										</a>
-										<!-- <a id="btn" onclick="myBtn(document.getElementById('btn').innerHTML)" data-toggle="modal" data-target="#myModal">click show</a> -->
-									</div>
-								</div>
+									';
+									}
+				
+								?>
 							</div>
 						</div>
 					</div>
 				</div>
 
 				<!-- Modal Assets -->
-				<div class = "modal fade" id="myModal" role="dialog">
-					
-				</div>
 
 				<div class="content tab-pane fade" id="assets" role="tabpanel" aria-labelledby="password-tab">
 				<div class="container-fluid">
@@ -372,14 +369,11 @@
 			</div>
 		</div>
 	</div>
-	<script>
+	<script> 
 		// function myModal(img){
 		// 	document.getElementById("myModal").innerHTML = '<div class="modal-dialog"><div class="modal-content"><div class="row justify-content-center"><div class="login-wrap p-4 p-md-5"><div>what up</div><div><img src="assets/img/cabinet.jpeg" width="250" height="200" alt="Psychopomp" /><h2>Cabinet</h2><p>Japanese Breakfast</p></div></div></div></div></div>'
 		// }
 
-		function myBtn(m,p) {
-    document.getElementById("myModal").innerHTML = '<div class="modal-dialog"><div class="modal-content"><div class="row justify-content-center"><div class="login-wrap p-4 p-md-5"><img src='+m+' width="250" height="200" alt="Psychopomp" /><div><h2>'+p+'</h2><form action=? method="post">num: <input type="text" name="name">    <space><input class="btn-primary" type="submit"></form></div></div></div></div></div>';
-}
 	</script>
 </body>
 <script src="assets/js/core/jquery.3.2.1.min.js"></script>

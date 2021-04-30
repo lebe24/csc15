@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.1
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2021 at 10:58 PM
--- Server version: 10.4.11-MariaDB
--- PHP Version: 7.2.27
+-- Generation Time: Apr 28, 2021 at 04:07 PM
+-- Server version: 10.1.38-MariaDB
+-- PHP Version: 7.3.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `login`
+-- Database: `logs`
 --
 
 -- --------------------------------------------------------
@@ -49,20 +49,21 @@ INSERT INTO `kosi assets` (`id`, `Items`) VALUES
 CREATE TABLE `office items` (
   `id` int(100) NOT NULL,
   `Item` varchar(100) NOT NULL,
-  `Quantity` int(100) NOT NULL
+  `Quantity` int(100) NOT NULL,
+  `img` varchar(225) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `office items`
 --
 
-INSERT INTO `office items` (`id`, `Item`, `Quantity`) VALUES
-(1, 'Laptop', 40),
-(2, 'Refrigerator', 30),
-(3, 'Furniture', 25),
-(4, 'Air Condition', 24),
-(5, 'Printer', 20),
-(6, 'Cabinet', 20);
+INSERT INTO `office items` (`id`, `Item`, `Quantity`, `img`) VALUES
+(1, 'Laptop', 40, 'assets/img/image.jpeg'),
+(2, 'Refrigerator', 30, 'assets/img/frige.jpeg'),
+(3, 'Furniture', 25, 'assets/img/funiture.jpeg'),
+(4, 'Air Condition', 24, 'assets/img/ac.jpeg'),
+(5, 'Printer', 20, 'assets/img/printer.jpeg'),
+(6, 'Cabinet', 20, 'assets/img/cabinet.jpeg');
 
 -- --------------------------------------------------------
 
@@ -83,6 +84,20 @@ CREATE TABLE `requests` (
 
 INSERT INTO `requests` (`id`, `username`, `Item`, `Status`) VALUES
 (1, 'Kosi', 'Laptop', 'Accepted');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `requests2`
+--
+
+CREATE TABLE `requests2` (
+  `id` int(10) NOT NULL,
+  `emp_id` int(10) NOT NULL,
+  `item_id` int(10) NOT NULL,
+  `quantity` int(10) NOT NULL,
+  `status` enum('pending','accepted','declined') NOT NULL DEFAULT 'pending'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -130,6 +145,12 @@ ALTER TABLE `requests`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `requests2`
+--
+ALTER TABLE `requests2`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -156,6 +177,12 @@ ALTER TABLE `office items`
 --
 ALTER TABLE `requests`
   MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `requests2`
+--
+ALTER TABLE `requests2`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
