@@ -1,18 +1,22 @@
 <?php 
-	require 'db_connect.php';
-	mysqli_select_db($conn,$dbname);
-	
-	//connect database
+	session_start();
+	//connect database 
 	require 'db_connect.php';
 	mysqli_select_db($conn,$dbname);
 
 	$sql = "SELECT * FROM `office items` ";
 	$result = mysqli_query($conn,$sql);
 	$result = mysqli_fetch_all($result, MYSQLI_ASSOC);
-	
-	// if (isset($_POST['submit'])){
-	// 	$sql = "INSERT INTO requests2 (emp_id,item_id,quantity) VALUES ('".$_SESSION['id']."', '".$_POST['itemid']."', '".$_POST['name'])."'";
-	// getting an error here};
+
+	//submitting the requests to the database
+	if (isset($_POST['submit'])){
+		$sql = "INSERT INTO requests2 (emp_id,item_id,quantity) VALUES ('".$_SESSION['emp_id']."', '".$_POST['item-id']."', '".$_POST['quantity']."')";
+		if(mysqli_query($conn,$sql)){
+			?><html><script>alert('request successful');</script></html><?php
+		}else{
+			?><html><script>alert('Error: <?php mysqli_error($conn)?>');</script></html><?php
+		};
+	};
 
 	mysqli_close($conn);
 ?>
@@ -137,7 +141,7 @@
 						<div class="info">
 							<a class="" data-toggle="collapse" href="#collapseExample" aria-expanded="true">
 								<span>
-								<?php $row['username']?>
+								<?php echo $_SESSION['username'];?>
 
 								</span>
 							</a>
@@ -163,11 +167,15 @@
 							<i class="fa fa-tv text-center mr-1"></i> 
 							Application
 						</a>
+
+						<!-- logging the user out -->
 						<li class="nav-item update-pro">
-							<button  data-toggle="modal" data-target="../index.html">
-								<i class="la la-hand-pointer-o"></i>
-								<p>Log Out</p>
-							</button>
+							<form action="../logout.php" method= "POST">
+								<button  type = "submit" name= "logout" > 
+									<i class="la la-hand-pointer-o"></i>
+									<p>Log Out</p>
+								</button>
+							</form>
 						</li>
 					</div>
 				</div>
@@ -179,6 +187,8 @@
 						<h4 class="page-title">Inventory in DataBase</h4>
 						<div class="row">
 							<div class="col-md-12">
+							
+							<!-- displaying the items from the database -->
 								<?php
 									for($i=0; $i<count($result); $i++){
 										echo '<div class="card">
@@ -186,7 +196,7 @@
 												<img id="img6" src="'.$result[$i]['img'].'" width="250" height="200" alt="Psychopomp" />
 												<a class="card-description" href="https" id="btn" data-toggle="modal" data-target="#myModal'.$i.'">
 													<h2 id="lp">'.$result[$i]['Item'].'</h2> 
-												<p>Number of item in stock</p>
+												<p style ="font-size: 20px";>Number of item in stock: '.$result[$i]['Quantity'].'</p>
 											</a>
 										</div>
 									</div>
@@ -198,10 +208,10 @@
 														<img src='.$result[$i]['img'].' width="250" height="200" alt="Psychopomp" />
 														<div>
 															<h2>'.$result[$i]['Item'].'</h2>
-															<form action="dash_worker.php" method="post">
+															<form action="dash_worker.php" method="POST">
 																<input type="hidden" name="item-id" value="'.$result[$i]['id'].'"> 
 																Quantity: <input type="text" name="quantity">
-																<input class="btn-primary" type="submit">
+																<input class="btn-primary" name ="submit" type="submit">
 															</form>
 														</div>
 													</div>

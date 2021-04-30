@@ -26,6 +26,8 @@ $row=mysqli_fetch_assoc($result);
 
 if(($row["username"] == $username && $row["password"] == $password) && $row["position"] == 'Employer'){
     // echo "Login succesful";
+    $_SESSION['username'] = $username;
+    $_SESSION['emp_id'] = $row['id'];
     ?><html><script>alert('welcome <?php echo $username ?>');</script></html><?php
      header("Location: dash/dash_worker.php"); //employee page
  } else if(($row["username"] == $username && $row["password"] == $password) && $row["position"] == 'HR'){
@@ -36,7 +38,7 @@ if(($row["username"] == $username && $row["password"] == $password) && $row["pos
      header("Location: dash/dash_mg.php"); // Manager page
  }else {
      ?><html><script>alert('Login Unsuccesful');</script></html><?php
-     include 'index.html'; // goes back to the home page, because login is unsuccesful
+     include 'index.php'; // goes back to the home page, because login is unsuccesful
  }
 
 mysqli_close($conn);
