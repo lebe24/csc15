@@ -9,14 +9,16 @@
 	$result = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
 	//submitting the requests to the database
-	if (isset($_POST['submit'])){
-		$sql = "INSERT INTO requests2 (emp_id,item_id,quantity) VALUES ('".$_SESSION['emp_id']."', '".$_POST['item-id']."', '".$_POST['quantity']."')";
-		if(mysqli_query($conn,$sql)){
-			?><html><script>alert('request successful');</script></html><?php
-		}else{
-			?><html><script>alert('Error: <?php mysqli_error($conn)?>');</script></html><?php
+	// function submit(){
+		if (isset($_POST['submit'])){
+			$sql = "INSERT INTO requests2 (emp_id,item_id,quantity) VALUES ('".$_SESSION['emp_id']."', '".$_POST['item-id']."', '".$_POST['quantity']."')";
+			if(mysqli_query($conn,$sql)){
+				?><html><script>alert('request successful');</script></html><?php
+			}else{
+				?><html><script>alert('Error: <?php mysqli_error($conn)?>');</script></html><?php
+			};
 		};
-	};
+	
 
 	mysqli_close($conn);
 ?>
@@ -155,17 +157,17 @@
 					<div class="profile-tab-nav border-right">
 					<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 						<a class="nav-link active" id="account-tab" data-toggle="pill" href="#inventory" role="tab" aria-controls="account" aria-selected="true">
-							<i class="fa fa-home text-center mr-1"></i> 
-							Account
+							<i class="la la-home text-center mr-1"></i> 
+							Inventory
 						</a>
 						<a class="nav-link" id="password-tab" data-toggle="pill" href="#assets" role="tab" aria-controls="password" aria-selected="false">
-							<i class="fa fa-key text-center mr-1"></i> 
-							Password
+							<i class="la la-database text-center mr-1"></i> 
+							Assets
 						</a>
 						
 						<a class="nav-link" id="application-tab" data-toggle="pill" href="#chat" role="tab" aria-controls="application" aria-selected="false">
-							<i class="fa fa-tv text-center mr-1"></i> 
-							Application
+							<i class="la la-envelope text-center mr-1"></i> 
+							Chats
 						</a>
 
 						<!-- logging the user out -->
@@ -196,7 +198,7 @@
 												<img id="img6" src="'.$result[$i]['img'].'" width="250" height="200" alt="Psychopomp" />
 												<a class="card-description" href="https" id="btn" data-toggle="modal" data-target="#myModal'.$i.'">
 													<h2 id="lp">'.$result[$i]['Item'].'</h2> 
-												<p style ="font-size: 20px";>Number of item in stock: '.$result[$i]['Quantity'].'</p>
+												<p style ="font-size: 20px";>Number of item in stock: <span style=color:blue;> '.$result[$i]['Quantity'].'</span></p>
 											</a>
 										</div>
 									</div>

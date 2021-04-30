@@ -124,7 +124,7 @@
 						<div class="info">
 							<a class="" data-toggle="collapse" href="#collapseExample" aria-expanded="true">
 								<span>
-								<?php echo $_SESSION['username'];?>
+								<?php $row['username']?>
 
 								</span>
 							</a>
@@ -151,12 +151,10 @@
 							Chat
 						</a>
 						<li class="nav-item update-pro">
-							<form action="../logout.php" method= "POST">
-										<button  type = "submit" name= "logout" > 
-											<i class="la la-hand-pointer-o"></i>
-											<p>Log Out</p>
-										</button>
-							</form>
+							<button  data-toggle="modal" data-target="../index.html">
+								<i class="la la-hand-pointer-o"></i>
+								<p>Log Out</p>
+							</button>
 						</li>
 					</div>
 				</div>
