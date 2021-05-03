@@ -1,23 +1,24 @@
 <?php 
-	session_start();
 	//connect database 
 	require 'db_connect.php';
 	mysqli_select_db($conn,$dbname);
+
+	session_start();
 
 	$sql = "SELECT * FROM `office items` ";
 	$result = mysqli_query($conn,$sql);
 	$result = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
 	//submitting the requests to the database
-	// function submit(){
+	
 		if (isset($_POST['submit'])){
-			$sql = "INSERT INTO requests2 (emp_id,item_id,quantity) VALUES ('".$_SESSION['emp_id']."', '".$_POST['item-id']."', '".$_POST['quantity']."')";
-			if(mysqli_query($conn,$sql)){
-				?><html><script>alert('request successful');</script></html><?php
-			}else{
-				?><html><script>alert('Error: <?php mysqli_error($conn)?>');</script></html><?php
-			};
+			// $sql = "INSERT INTO requests (username,item,image,quantity) VALUES ($_SESSION['username'], 5, 70)";
+			$sql = "INSERT INTO requests (username,item,image,quantity) VALUES ('".$_SESSION['']."', '".$name."', '".$result[$i]['img']."', '".$_POST['quantity']."')";
+
+			mysqli_query($conn,$sql);
 		};
+
+	
 	
 
 	mysqli_close($conn);
@@ -111,13 +112,13 @@
 							</ul>
 						</li>
 						<li class="nav-item dropdown">
-							<a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false"> <img src="assets/img/person.png" alt="user-img" width="36" class="img-circle"><span >Avatar</span></span> </a>
+							<a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false"> <img src="assets/img/person.png" alt="user-img" width="36" class="img-circle"><span ><?php echo $_SESSION['username'];?></span></span> </a>
 							<ul class="dropdown-menu dropdown-user">
 								<li>
 									<div class="user-box">
 										<div class="u-img"><img src="assets/img/person.png"></div>
 										<div class="u-text">
-											<h4><?php $row['username']?></h4>
+											<h2><?php $row['username']?></h2>
 											<p class="text-muted">example@group.com</p><a href="profile.html" class="btn btn-rounded btn-danger btn-sm">View Profile</a></div>
 										</div>
 									</li>
@@ -142,10 +143,9 @@
 						</div>
 						<div class="info">
 							<a class="" data-toggle="collapse" href="#collapseExample" aria-expanded="true">
-								<span>
+								<h2>
 								<?php echo $_SESSION['username'];?>
-
-								</span>
+								</h2>
 							</a>
 							<div class="clearfix"></div>
 
@@ -193,6 +193,7 @@
 							<!-- displaying the items from the database -->
 								<?php
 									for($i=0; $i<count($result); $i++){
+										$name = $result[$i]['Item'];
 										echo '<div class="card">
 										<div class="card-header">
 												<img id="img6" src="'.$result[$i]['img'].'" width="250" height="200" alt="Psychopomp" />
@@ -209,9 +210,8 @@
 													<div class="login-wrap p-4 p-md-5">
 														<img src='.$result[$i]['img'].' width="250" height="200" alt="Psychopomp" />
 														<div>
-															<h2>'.$result[$i]['Item'].'</h2>
+															<h2>'.$name.'</h2>
 															<form action="dash_worker.php" method="POST">
-																<input type="hidden" name="item-id" value="'.$result[$i]['id'].'"> 
 																Quantity: <input type="text" name="quantity">
 																<input class="btn-primary" name ="submit" type="submit">
 															</form>
@@ -223,8 +223,8 @@
 									</div>
 									';
 									}
-				
 								?>
+								
 							</div>
 						</div>
 					</div>
