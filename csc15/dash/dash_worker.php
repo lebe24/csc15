@@ -10,14 +10,13 @@
 	$result = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
 	//submitting the requests to the database
-	
-		if (isset($_POST['submit'])){
-			// $sql = "INSERT INTO requests (username,item,image,quantity) VALUES ($_SESSION['username'], 5, 70)";
-			$sql = "INSERT INTO requests (username,item,image,quantity) VALUES ('".$_SESSION['']."', '".$name."', '".$result[$i]['img']."', '".$_POST['quantity']."')";
+	if (isset($_POST['submit'])){
 
-			mysqli_query($conn,$sql);
-		};
-
+		//  $sql = "INSERT INTO requests (username,item,image,quantity) VALUES ($_SESSION['username'], 5, 70)";
+		$sql = "INSERT INTO requests (username,item,image,time,quantity) VALUES ('".$_SESSION['username']."', '".$_POST['n']."', '".$_POST['img']."', '".$_POST['tn']."', '".$_POST['quantity']."')";
+		mysqli_query($conn,$sql);
+	};
+		
 	
 	
 
@@ -210,10 +209,14 @@
 													<div class="login-wrap p-4 p-md-5">
 														<img src='.$result[$i]['img'].' width="250" height="200" alt="Psychopomp" />
 														<div>
-															<h2>'.$name.'</h2>
+														   <h2>'.$result[$i]['Item'].'</h2>
+															
 															<form action="dash_worker.php" method="POST">
+															<input type="hidden" name="n" value='.$result[$i]['Item'].'">
+															<input type="hidden" name="tn" value='.date(" h:i:sa").'>
+															<input type="hidden" name="img" value='.$result[$i]['img'].'">
 																Quantity: <input type="text" name="quantity">
-																<input class="btn-primary" name ="submit" type="submit">
+															 <input class="btn-primary" name ="submit" type="submit">
 															</form>
 														</div>
 													</div>
@@ -223,6 +226,9 @@
 									</div>
 									';
 									}
+
+									
+							
 								?>
 								
 							</div>

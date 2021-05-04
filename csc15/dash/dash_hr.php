@@ -2,6 +2,13 @@
 
  session_start();
  include 'db_connect.php';
+ mysqli_select_db($conn,$dbname);
+ $sql = "SELECT * FROM `office items` ";
+ $result = mysqli_query($conn,$sql);
+ $result = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+
+ mysqli_close($conn);
 ?>
 
 <html>
@@ -166,63 +173,21 @@
 						<h4 class="page-title">Inventory in DataBase</h4>
 						<div class="row">
 							<div class="col-md-12">
-								<div class="card">
-									<div class="card-header">
-											<img id="img6" src="assets/img/image.jpeg" width="250" height="200" alt="Psychopomp" />
-											<a class="card-description" href="https" id="btn" onclick="myBtn(document.getElementById('img6').src,document.getElementById('lp').innerHTML)" data-toggle="modal" data-target="#myModal">
-												<h2 id="lp">Laptop</h2> 
-											<p>Number of item in stock</p>
-										</a>
-									</div>
-								</div>
-								<div class="card">
-									<div class="card-header">
-											<img id="img5" src="assets/img/frige.jpeg" width="250" height="200" alt="Psychopomp" />
-											<a class="card-description" href="https" id="btn" onclick="myBtn(document.getElementById('img5').src,document.getElementById('reg').innerHTML)" data-toggle="modal" data-target="#myModal">
-												<h2 id="reg">Refrigerator</h2>
-											<p>Number of item in stock</p> 
-											<!-- referrence the php stock in the db -->										</a>
-									</div>
-								</div>
-								<div class="card">
-									<div class="card-header">
-											<img id="img4" src="assets/img/funiture.jpeg" width="250" height="200" alt="Psychopomp" />
-											<a class="card-description" href="https" id="btn" onclick="myBtn(document.getElementById('img4').src,document.getElementById('fn').innerHTML)" data-toggle="modal" data-target="#myModal">
-												<h2 id="fn">Funiture</h2>
-												<p>Number of item in stock</p> 
-												<!-- referrence the php stock in the db -->
+							<?php
+									for($i=0; $i<count($result); $i++){
+										echo '<div class="card">
+										<div class="card-header">
+												<img id="img6" src="'.$result[$i]['img'].'" width="250" height="200" alt="Psychopomp" />
+												<a class="card-description" href="https" id="btn" data-toggle="modal" data-target="#myModal'.$i.'">
+													<h2 id="lp">'.$result[$i]['Item'].'</h2> 
+												<p style ="font-size: 20px";>Number of item in stock: <span style=color:blue;> '.$result[$i]['Quantity'].'</span></p>
 											</a>
+										</div>
 									</div>
-								</div>
-								<div class="card">
-									<div class="card-header">
-											<img  id="img3" src="assets/img/ac.jpeg" width="250" height="200" alt="Psychopomp" />
-											<a class="card-description" href="https" id="btn" onclick="myBtn(document.getElementById('img3').src,document.getElementById('ar').innerHTML)" data-toggle="modal" data-target="#myModal">
-												<h2 id="ar">Air Condition</h2>
-												<p>Number of item in stock</p> 
-												<!-- referrence the php stock in the db -->										</a>
-									</div>
-								</div>
-								<div class="card">
-									<div class="card-header">
-											<img id="img2" src="assets/img/printer.jpeg" width="250" height="200" alt="Psychopomp" />
-											<a class="card-description" href="https" id="btn" onclick="myBtn(document.getElementById('img2').src,document.getElementById('hc').innerHTML)" data-toggle="modal" data-target="#myModal">
-												<h2 id="hc">Printer</h2>
-												<p>Number of item in stock</p> 
-												<!-- referrence the php stock in the db -->
-										</a>
-									</div>
-								</div>
-								<div class="card">
-									<div class="card-header">
-										<img  id ="img" src="assets/img/cabinet.jpeg" width="250" height="200" alt="Psychopomp" />
-										 <a id="btn"  onclick="myBtn(document.getElementById('img').src,document.getElementById('h2').innerHTML)" data-toggle="modal" data-target="#myModal">
-										<h2 id="h2">Cabinet</h2>
-										<p>Number of item in stock</p> 
-										<!-- referrence the php stock in the db -->										</a>
-										<!-- <a id="btn" onclick="myBtn(document.getElementById('btn').innerHTML)" data-toggle="modal" data-target="#myModal">click show</a> -->
-									</div>
-								</div>
+									';
+									}
+								?>
+							
 							</div>
 						</div>
 					</div>
