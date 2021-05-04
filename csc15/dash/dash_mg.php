@@ -223,7 +223,7 @@
 																	<img src="'.$result2[$i]['image'].'" alt="User Img">
 																</div>
 																<div class="user-info__basic">
-																	<h5 class="mb-0">'.$result2[$i]['item'].' Item</h5>
+																	<h2 class="mb-0">'.$result2[$i]['item'].'</h2>
 																</div>
 															</div>
 													    </td>
@@ -231,8 +231,7 @@
 															<span>'.$result2[$i]['username'].'</span>
 														</td>
 														<td>
-															<h6 class="mb-0">06:00 PM</h6>
-															<small>php date</small>
+															<h6 class="mb-0">'.$result2[$i]['time'].'</h6>
 														</td>
 														<td>
 															<h6 class="mb-0">#91 9876543215</h6>
@@ -244,8 +243,10 @@
 																	<i class="fa fa-ellipsis-v"></i>
 																</a>
 																<div class="dropdown-menu" aria-labelledby="triggerId1">
+																<form>
 																	<a class="dropdown-item text-danger" href="#"><i class="la la-close mr-1"></i> denie</a>
 																	<a class="dropdown-item text-success" href="#"><i class="la la-mark mr-1"></i> accept</a>
+																</form>
 																</div>
 															</div>
 														</td>
