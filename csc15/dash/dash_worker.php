@@ -2,6 +2,34 @@
 
  session_start();
  include 'db_connect.php';
+ mysqli_select_db($conn,$dbname);
+
+ if (isset($_GET['logout'])) {
+	 //checks if logout is clicked(set)
+	session_destroy();
+	unset($_SESSION['username']);
+    unset($_SESSION['first_name']);
+    unset($_SESSION['last_name']);
+	unset($_SESSION['position']);
+    header("location: ../index.html");
+ }
+ 
+if(isset($_POST['sub_mit'])){
+	//get items requested from dash_worker.php page
+	 $itemm = $_POST["item_name"];
+	 $statss = $_POST["statss"];
+	 $requester = $_SESSION['username'];
+
+	//place all items requested for in a table in the DataBase
+	 $query = "INSERT INTO requests(username,Item,Stats) 
+	 VALUES('$requester', '$itemm', '$statss')";
+
+    if (mysqli_query($conn, $query)) { ?>
+	<script>alert('Request submitted')</script>
+    <?php } else { ?>
+		<script>alert('Request not submitted...connection failure')</script>	
+    <?php  }
+}
 ?>
 
 <html>
@@ -98,7 +126,8 @@
 									<div class="user-box">
 										<div class="u-img"><img src="assets/img/person.png"></div>
 										<div class="u-text">
-											<h4><?php $row['username']?></h4>
+											<!--Gets the name and position from the database using sessions-->
+											<h4><?php echo $_SESSION['position']." ".$_SESSION['username']; ?></h4>
 											<p class="text-muted">example@group.com</p><a href="profile.html" class="btn btn-rounded btn-danger btn-sm">View Profile</a></div>
 										</div>
 									</li>
@@ -124,7 +153,7 @@
 						<div class="info">
 							<a class="" data-toggle="collapse" href="#collapseExample" aria-expanded="true">
 								<span>
-								<?php $row['username']?>
+								<?php echo $_SESSION['position']." ".$_SESSION['username'];?>
 
 								</span>
 							</a>
@@ -153,7 +182,7 @@
 						<li class="nav-item update-pro">
 							<button  data-toggle="modal" data-target="../index.html">
 								<i class="la la-hand-pointer-o"></i>
-								<p>Log Out</p>
+								<a href="dash_worker.php?logout='1'" style="color:black";>Log Out</a>
 							</button>
 						</li>
 					</div>
@@ -170,27 +199,48 @@
 									<div class="card-header">
 											<img id="img6" src="assets/img/image.jpeg" width="250" height="200" alt="Psychopomp" />
 											<a class="card-description" href="https" id="btn" onclick="myBtn(document.getElementById('img6').src,document.getElementById('lp').innerHTML)" data-toggle="modal" data-target="#myModal">
-												<h2 id="lp">Laptop</h2> 
-											<p>Number of item in stock</p>
+											<!--Gets the quantity and name of assets from the database for display-->
+											<?php   $query = "SELECT `Quantity`,`Item` FROM `office items` WHERE `id`= 1 ";
+                                                    $result = mysqli_query($conn, $query);
+													$row=mysqli_fetch_assoc($result);
+													$_SESSION['item1'] = $row["Item"];?>
+												<h2 id="lp"><?php echo $_SESSION['item1'];?></h2>
+												<p>
+													<?php echo $row["Quantity"]." "."Pieces"; ?> 
+											</p>
 										</a>
+										
 									</div>
 								</div>
 								<div class="card">
 									<div class="card-header">
 											<img id="img5" src="assets/img/frige.jpeg" width="250" height="200" alt="Psychopomp" />
 											<a class="card-description" href="https" id="btn" onclick="myBtn(document.getElementById('img5').src,document.getElementById('reg').innerHTML)" data-toggle="modal" data-target="#myModal">
-												<h2 id="reg">Refrigerator</h2>
-											<p>Number of item in stock</p> 
-											<!-- referrence the php stock in the db -->										</a>
+											<!--Gets the quantity and name of assets from the database for display-->
+											<?php   $query = "SELECT `Quantity`,`Item` FROM `office items` WHERE `id`= 2 ";
+                                                    $result = mysqli_query($conn, $query);
+													$row=mysqli_fetch_assoc($result);
+													$_SESSION['item'] = $row["Item"];?>
+												<h2 id="reg"><?php echo $_SESSION['item'];?></h2>
+												<p>
+													<?php echo $row["Quantity"]." "."Pieces"; ?> 
+											</p>
+											</a>
 									</div>
 								</div>
 								<div class="card">
 									<div class="card-header">
 											<img id="img4" src="assets/img/funiture.jpeg" width="250" height="200" alt="Psychopomp" />
 											<a class="card-description" href="https" id="btn" onclick="myBtn(document.getElementById('img4').src,document.getElementById('fn').innerHTML)" data-toggle="modal" data-target="#myModal">
-												<h2 id="fn">Funiture</h2>
-												<p>Number of item in stock</p> 
-												<!-- referrence the php stock in the db -->
+											<!--Gets the quantity and name of assets from the database for display-->
+											<?php   $query = "SELECT `Quantity`,`Item` FROM `office items` WHERE `id`= 3 ";
+                                                    $result = mysqli_query($conn, $query);
+													$row=mysqli_fetch_assoc($result);
+													$_SESSION['item'] = $row["Item"];?>
+												<h2 id="fn"><?php echo $_SESSION['item'];?></h2>
+												<p>
+													<?php echo $row["Quantity"]." "."Pieces"; ?> 
+											</p>
 											</a>
 									</div>
 								</div>
@@ -198,36 +248,57 @@
 									<div class="card-header">
 											<img  id="img3" src="assets/img/ac.jpeg" width="250" height="200" alt="Psychopomp" />
 											<a class="card-description" href="https" id="btn" onclick="myBtn(document.getElementById('img3').src,document.getElementById('ar').innerHTML)" data-toggle="modal" data-target="#myModal">
-												<h2 id="ar">Air Condition</h2>
-												<p>Number of item in stock</p> 
-												<!-- referrence the php stock in the db -->										</a>
+											<!--Gets the quantity and name of assets from the database for display-->
+											<?php   $query = "SELECT `Quantity`,`Item` FROM `office items` WHERE `id`= 4 ";
+                                                    $result = mysqli_query($conn, $query);
+													$row=mysqli_fetch_assoc($result);
+													$_SESSION['item'] = $row["Item"];?>
+												<h2 id="ar"><?php echo $_SESSION['item'];?></h2>
+												<p>
+													<?php echo $row["Quantity"]." "."Pieces"; ?> 
+											</p>
+											</a>
 									</div>
 								</div>
 								<div class="card">
 									<div class="card-header">
 											<img id="img2" src="assets/img/printer.jpeg" width="250" height="200" alt="Psychopomp" />
-											<a class="card-description" href="https" id="btn" onclick="myBtn(document.getElementById('img2').src,document.getElementById('hc').innerHTML)" data-toggle="modal" data-target="#myModal">
-												<h2 id="hc">Printer</h2>
-												<p>Number of item in stock</p> 
-												<!-- referrence the php stock in the db -->
+											<a class="card-description" href="https" id="btn" onclick="myBtn(document.getElementById('img2').src,document.getElementById('pr').innerHTML)" data-toggle="modal" data-target="#myModal">
+											<!--Gets the quantity and name of assets from the database for display-->
+											<?php   $query = "SELECT `Quantity`,`Item` FROM `office items` WHERE `id`= 5 ";
+                                                    $result = mysqli_query($conn, $query);
+													$row=mysqli_fetch_assoc($result);
+													$_SESSION['item'] = $row["Item"];?>
+												<h2 id="pr"><?php echo $_SESSION['item'];?></h2>
+												<p>
+													<?php echo $row["Quantity"]." "."Pieces"; ?> 
+											</p>
 										</a>
+
 									</div>
 								</div>
 								<div class="card">
 									<div class="card-header">
 										<img  id ="img" src="assets/img/cabinet.jpeg" width="250" height="200" alt="Psychopomp" />
-										 <a id="btn"  onclick="myBtn(document.getElementById('img').src,document.getElementById('h2').innerHTML)" data-toggle="modal" data-target="#myModal">
-										<h2 id="h2">Cabinet</h2>
-										<p>Number of item in stock</p> 
-										<!-- referrence the php stock in the db -->										</a>
-										<!-- <a id="btn" onclick="myBtn(document.getElementById('btn').innerHTML)" data-toggle="modal" data-target="#myModal">click show</a> -->
+										 <a id="btn"  onclick="myBtn(document.getElementById('img').src,document.getElementById('ca').innerHTML)" data-toggle="modal" data-target="#myModal">
+										 <!--Gets the quantity and name of assets from the database for display-->
+										 <?php   $query = "SELECT `Quantity`,`Item` FROM `office items` WHERE `id`= 6 ";
+                                                    $result = mysqli_query($conn, $query);
+													$row=mysqli_fetch_assoc($result);
+													$_SESSION['item'] = $row["Item"];?>
+												<h2 id="ca"><?php echo $_SESSION['item'];?></h2>
+												<p>
+													<?php echo $row["Quantity"]." "."Pieces"; ?> 
+											</p>
+										</a>
+										
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-
+				
 				<!-- Modal Assets -->
 				<div class = "modal fade" id="myModal" role="dialog">
 					
@@ -241,16 +312,22 @@
 								<div class="container">
 						
 									<table class="table">
+									
+										
 										<thead>
 											<tr>
-												<th>Items</th>
-												<th>Status</th>
-												<th>Check Time</th>
-												<th>Stock Id</th>
-												<th>Actions</th>
+												<th><h3>Items</h3></th>
 											</tr>
 										</thead>
 										<tbody>
+										<?php
+										$user1 = $_SESSION['username'];
+									    $sql1 = "SELECT `Items`,`Stats` FROM `".$user1." assets` ";
+										//echo "<pre>Debug: $sql1</pre>\m";....for sql debugging
+										      $result1 = mysqli_query($conn, $sql1);
+											  if (mysqli_num_rows($result1) > 0) {
+												// output data of each row
+												while($row = mysqli_fetch_assoc($result1)) { ?>
 											<tr>
 												<td>
 													<div class="user-info">
@@ -258,113 +335,42 @@
 															<img src="../dash/assets/img/cabinet.jpeg" alt="User Img">
 														</div>
 														<div class="user-info__basic">
-															<h5 class="mb-0">Cabinet Item</h5>
+															<h5 class="mb-0"><?php echo $row["Items"];?></h5>
 														</div>
 													</div>
 												</td>
 												<td>
-													<span class="btn btn-success">Been used</span>
-												</td>
-												<td>
-													<h6 class="mb-0">06:00 PM</h6>
-													<small>php date</small>
-												</td>
-												<td>
-													<h6 class="mb-0">#91 9876543215</h6>
-													<a href="#!"><small>Contact</small></a>
+													<!--colour of button depends on if stats is granted or not in the Database-->
+													<?php if($row["Stats"] == 'Granted'){ ?>
+													    <span class="btn btn-success"><?php echo "Status: ".$row["Stats"];?></span>
+													<?php } else { ?>
+														<span class="btn btn-danger"><?php echo "Status: ".$row["Stats"];?></span>
+													<?php } ?>
 												</td>
 												
-												<td>
-													<div class="dropdown open">
-														<a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
-																aria-expanded="false">
-																	<i class="fa fa-ellipsis-v"></i>
-														</a>
-														<div class="dropdown-menu" aria-labelledby="triggerId1">
-															<a class="dropdown-item" href="#"><i class="fa fa-pencil mr-1"></i> Edit</a>
-															<a class="dropdown-item text-danger" href="#"><i class="fa fa-trash mr-1"></i> Delete</a>
-														</div>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td>
-													<div class="user-info">
+												<?php
+
+													
+												}
+											} else {
+												?>
+												<div class="user-info">
 														<div class="user-info__img">
-															<img src="../dash/assets/img/frige.jpeg" alt="User Img">
+															<img src="../dash/assets/img/cabinet.jpeg" alt="User Img">
 														</div>
 														<div class="user-info__basic">
-															<h5 class="mb-0">Frige Item</h5>
+															<h5 class="mb-0">No Assets Selected</h5>
 														</div>
 													</div>
 												</td>
-												<td>
-													<span class="btn btn-danger">Not Used</span>
-												</td>
-												<td>
-													<h6 class="mb-0">06:00 PM</h6>
-													<small>2 Feb 2021</small>
-												</td>
-												<td>
-													<h6 class="mb-0">#91 9876543215</h6>
-													<a href="#!"><small>Contact</small></a>
-												</td>
-												
-												<td>
-													<div class="dropdown open">
-														<a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
-																aria-expanded="false">
-																	<i class="fa fa-ellipsis-v"></i>
-														</a>
-														<div class="dropdown-menu" aria-labelledby="triggerId1">
-															<a class="dropdown-item" href="#"><i class="fa fa-pencil mr-1"></i> Edit</a>
-															<a class="dropdown-item text-danger" href="#"><i class="fa fa-trash mr-1"></i> Delete</a>
-														</div>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td>
-													<div class="user-info">
-														<div class="user-info__img">
-															<img src="../dash/assets/img/ac.jpeg" alt="User Img">
-														</div>
-														<div class="user-info__basic">
-															<h5 class="mb-0">Ac Item</h5>
-															
-														</div>
-													</div>
-												</td>
-												<td>
-													<span class="btn btn-success">Been Used</span>
-												</td>
-												<td>
-													<h6 class="mb-0">06:00 PM</h6>
-													<small>30 april 2021</small>
-												</td>
-												<td>
-													<h6 class="mb-0">#91 9876543215</h6>
-													<a href="#!"><small>Contact</small></a>
-												</td>
-												<td>
-													<div class="dropdown open">
-														<a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
-																aria-expanded="false">
-																	<i class="fa fa-ellipsis-v"></i>
-														</a>
-														<div class="dropdown-menu" aria-labelledby="triggerId1">
-															<a class="dropdown-item" href="#"><i class="fa fa-pencil mr-1"></i> Edit</a>
-															<a class="dropdown-item text-danger" href="#"><i class="fa fa-trash mr-1"></i> Delete</a>
-														</div>
-													</div>
-												</td>
+												<?php
+											}
+										       ?>
 											</tr>
 										</tbody>
 									</table>
 								</div>
 							</section>
-
-							<!-- php script -->
 						</div>
 					</div>
 				</div>
@@ -373,14 +379,10 @@
 		</div>
 	</div>
 	<script>
-		// function myModal(img){
-		// 	document.getElementById("myModal").innerHTML = '<div class="modal-dialog"><div class="modal-content"><div class="row justify-content-center"><div class="login-wrap p-4 p-md-5"><div>what up</div><div><img src="assets/img/cabinet.jpeg" width="250" height="200" alt="Psychopomp" /><h2>Cabinet</h2><p>Japanese Breakfast</p></div></div></div></div></div>'
-		// }
-
-		function myBtn(m,p) {
-    document.getElementById("myModal").innerHTML = '<div class="modal-dialog"><div class="modal-content"><div class="row justify-content-center"><div class="login-wrap p-4 p-md-5"><img src='+m+' width="250" height="200" alt="Psychopomp" /><div><h2>'+p+'</h2><form action=? method="post">num: <input type="text" name="name">    <space><input class="btn-primary" type="submit"></form></div></div></div></div></div>';
-}
-	</script>
+	function myBtn(m,p) {
+    document.getElementById("myModal").innerHTML = '<div class="modal-dialog"><div class="modal-content"><div class="row justify-content-center"><div class="login-wrap p-4 p-md-5"><img src='+m+' width="250" height="200" alt="Psychopomp" /><div><h2>'+ p +'</h2><form action=dash_worker.php method="POST">item: <input type="text" name="item_name" value = '+p+' readonly><br>Status: <input type = "text" name = "statss" value = "pending" readonly><br><input class="btn-primary" type="submit" name ="sub_mit"></form></div></div></div></div></div>';}
+    </script>
+	
 </body>
 <script src="assets/js/core/jquery.3.2.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
