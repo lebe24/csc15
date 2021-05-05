@@ -2,7 +2,20 @@
 
  session_start();
  include 'db_connect.php';
+ mysqli_select_db($conn,$dbname);
+ $sql = "SELECT * FROM `office items` ";
+ $sql2 = "SELECT * FROM `requests` ";
+
+ $result = mysqli_query($conn,$sql);
+ $result2 = mysqli_query($conn,$sql2);
+
+ $result = mysqli_fetch_all($result, MYSQLI_ASSOC);
+ $result2 = mysqli_fetch_all($result2, MYSQLI_ASSOC);
+
+
+ mysqli_close($conn);
 ?>
+
 
 <html>
 <head>
@@ -55,15 +68,7 @@
 												<span class="time">5 minutes ago</span> 
 											</div>
 										</a>
-										<a href="#">
-											<div class="notif-icon notif-success"> <i class="la la-comment"></i> </div>
-											<div class="notif-content">
-												<span class="block">
-													Rahmad commented on Admin
-												</span>
-												<span class="time">12 minutes ago</span> 
-											</div>
-										</a>
+										
 										<a href="#">
 											<div class="notif-img"> 
 												<img src="assets/img/person.png" alt="Img Profile">
@@ -166,71 +171,26 @@
 						<h4 class="page-title">Inventory in DataBase</h4>
 						<div class="row">
 							<div class="col-md-12">
-								<div class="card">
-									<div class="card-header">
-											<img id="img6" src="assets/img/image.jpeg" width="250" height="200" alt="Psychopomp" />
-											<a class="card-description" href="https" id="btn" onclick="myBtn(document.getElementById('img6').src,document.getElementById('lp').innerHTML)" data-toggle="modal" data-target="#myModal">
-												<h2 id="lp">Laptop</h2> 
-											<p>Number of item in stock</p>
-										</a>
-									</div>
-								</div>
-								<div class="card">
-									<div class="card-header">
-											<img id="img5" src="assets/img/frige.jpeg" width="250" height="200" alt="Psychopomp" />
-											<a class="card-description" href="https" id="btn" onclick="myBtn(document.getElementById('img5').src,document.getElementById('reg').innerHTML)" data-toggle="modal" data-target="#myModal">
-												<h2 id="reg">Refrigerator</h2>
-											<p>Number of item in stock</p> 
-											<!-- referrence the php stock in the db -->										</a>
-									</div>
-								</div>
-								<div class="card">
-									<div class="card-header">
-											<img id="img4" src="assets/img/funiture.jpeg" width="250" height="200" alt="Psychopomp" />
-											<a class="card-description" href="https" id="btn" onclick="myBtn(document.getElementById('img4').src,document.getElementById('fn').innerHTML)" data-toggle="modal" data-target="#myModal">
-												<h2 id="fn">Funiture</h2>
-												<p>Number of item in stock</p> 
-												<!-- referrence the php stock in the db -->
+								
+							<?php
+									for($i=0; $i<count($result); $i++){
+										echo '<div class="card">
+										<div class="card-header">
+												<img id="img6" src="'.$result[$i]['img'].'" width="250" height="200" alt="Psychopomp" />
+												<a class="card-description" href="https" id="btn" data-toggle="modal" data-target="#myModal'.$i.'">
+													<h2 id="lp">'.$result[$i]['Item'].'</h2> 
+												<p style ="font-size: 20px";>Number of item in stock: <span style=color:blue;> '.$result[$i]['Quantity'].'</span></p>
 											</a>
+										</div>
 									</div>
-								</div>
-								<div class="card">
-									<div class="card-header">
-											<img  id="img3" src="assets/img/ac.jpeg" width="250" height="200" alt="Psychopomp" />
-											<a class="card-description" href="https" id="btn" onclick="myBtn(document.getElementById('img3').src,document.getElementById('ar').innerHTML)" data-toggle="modal" data-target="#myModal">
-												<h2 id="ar">Air Condition</h2>
-												<p>Number of item in stock</p> 
-												<!-- referrence the php stock in the db -->										</a>
-									</div>
-								</div>
-								<div class="card">
-									<div class="card-header">
-											<img id="img2" src="assets/img/printer.jpeg" width="250" height="200" alt="Psychopomp" />
-											<a class="card-description" href="https" id="btn" onclick="myBtn(document.getElementById('img2').src,document.getElementById('hc').innerHTML)" data-toggle="modal" data-target="#myModal">
-												<h2 id="hc">Printer</h2>
-												<p>Number of item in stock</p> 
-												<!-- referrence the php stock in the db -->
-										</a>
-									</div>
-								</div>
-								<div class="card">
-									<div class="card-header">
-										<img  id ="img" src="assets/img/cabinet.jpeg" width="250" height="200" alt="Psychopomp" />
-										 <a id="btn"  onclick="myBtn(document.getElementById('img').src,document.getElementById('h2').innerHTML)" data-toggle="modal" data-target="#myModal">
-										<h2 id="h2">Cabinet</h2>
-										<p>Number of item in stock</p> 
-										<!-- referrence the php stock in the db -->										</a>
-										<!-- <a id="btn" onclick="myBtn(document.getElementById('btn').innerHTML)" data-toggle="modal" data-target="#myModal">click show</a> -->
-									</div>
-								</div>
+									';
+									}
+								?>
+
+
 							</div>
 						</div>
 					</div>
-				</div>
-
-				<!-- Modal Assets -->
-				<div class = "modal fade" id="myModal" role="dialog">
-					
 				</div>
 
 				<div class="content tab-pane fade" id="assets" role="tabpanel" aria-labelledby="password-tab">
@@ -251,114 +211,49 @@
 											</tr>
 										</thead>
 										<tbody>
-											<tr>
-												<td>
-													<div class="user-info">
-														<div class="user-info__img">
-															<img src="../dash/assets/img/cabinet.jpeg" alt="User Img">
-														</div>
-														<div class="user-info__basic">
-															<h5 class="mb-0">Cabinet Item</h5>
-														</div>
-													</div>
-												</td>
-												<td>
-													<span >KOSI</span>
-												</td>
-												<td>
-													<h6 class="mb-0">06:00 PM</h6>
-													<small>php date</small>
-												</td>
-												<td>
-													<h6 class="mb-0">#91 9876543215</h6>
-													<a href="#!"><small>Contact</small></a>
-												</td>
-												
-												<td>
-													<div class="dropdown open">
-														<a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
-																aria-expanded="false">
+											<?php
+												for($i=0; $i<count($result2); $i++){
+
+													echo 
+													'
+													<tr>
+														<td>
+															<div class="user-info">
+																<div class="user-info__img">
+																	<img src="'.$result2[$i]['image'].'" alt="User Img">
+																</div>
+																<div class="user-info__basic">
+																	<h2 class="mb-0">'.$result2[$i]['item'].'</h2>
+																</div>
+															</div>
+													    </td>
+														<td>
+															<span>'.$result2[$i]['username'].'</span>
+														</td>
+														<td>
+															<h6 class="mb-0">'.$result2[$i]['time'].'</h6>
+														</td>
+														<td>
+															<h6 class="mb-0">#91 9876543215</h6>
+														</td>
+														<td>
+															<div class="dropdown open">
+																<a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
+																	aria-expanded="false">
 																	<i class="fa fa-ellipsis-v"></i>
-														</a>
-														<div class="dropdown-menu" aria-labelledby="triggerId1">
-															<a class="dropdown-item text-danger" href="#"><i class="la la-close mr-1"></i> denie</a>
-															<a class="dropdown-item text-success" href="#"><i class="la la-mark mr-1"></i> accept</a>
-														</div>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td>
-													<div class="user-info">
-														<div class="user-info__img">
-															<img src="../dash/assets/img/frige.jpeg" alt="User Img">
-														</div>
-														<div class="user-info__basic">
-															<h5 class="mb-0">Frige Item</h5>
-														</div>
-													</div>
-												</td>
-												<td>
-													<span >Tizzy</span>
-												</td>
-												<td>
-													<h6 class="mb-0">06:00 PM</h6>
-													<small>2 Feb 2021</small>
-												</td>
-												<td>
-													<h6 class="mb-0">#91 9876543215</h6>
-													<a href="#!"><small>Contact</small></a>
-												</td>
-												
-												<td>
-													<div class="dropdown open">
-														<a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
-																aria-expanded="false">
-																	<i class="fa fa-ellipsis-v"></i>
-														</a>
-														<div class="dropdown-menu" aria-labelledby="triggerId1">
-                                                        <a class="dropdown-item text-danger" href="#"><i class="la la-close mr-1"></i> denie</a>
-															<a class="dropdown-item text-success" href="#"><i class="la la-mark mr-1"></i> accept</a>
-														</div>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td>
-													<div class="user-info">
-														<div class="user-info__img">
-															<img src="../dash/assets/img/ac.jpeg" alt="User Img">
-														</div>
-														<div class="user-info__basic">
-															<h5 class="mb-0">Ac Item</h5>
-															
-														</div>
-													</div>
-												</td>
-												<td>
-													<span>KOSI</span>
-												</td>
-												<td>
-													<h6 class="mb-0">06:00 PM</h6>
-													<small>30 april 2021</small>
-												</td>
-												<td>
-													<h6 class="mb-0">#91 9876543215</h6>
-													<a href="#!"><small>Contact</small></a>
-												</td>
-												<td>
-													<div class="dropdown open">
-														<a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
-																aria-expanded="false">
-																	<i class="fa fa-ellipsis-v"></i>
-														</a>
-														<div class="dropdown-menu" aria-labelledby="triggerId1">
-                                                        <a class="dropdown-item text-danger" href="#"><i class="la la-close mr-1"></i> denie</a>
-															<a class="dropdown-item text-success" href="#"><i class="la la-mark mr-1"></i> accept</a>
-														</div>
-													</div>
-												</td>
-											</tr>
+																</a>
+																<div class="dropdown-menu" aria-labelledby="triggerId1">
+																<form>
+																	<a class="dropdown-item text-danger" href="#"><i class="la la-close mr-1"></i> denie</a>
+																	<a class="dropdown-item text-success" href="#"><i class="la la-mark mr-1"></i> accept</a>
+																</form>
+																</div>
+															</div>
+														</td>
+													</tr>
+													';
+												}
+											?>
 										</tbody>
 									</table>
 								</div>
