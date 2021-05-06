@@ -7,9 +7,27 @@
  $result = mysqli_query($conn,$sql);
  $result = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
+ if(isset($_POST['sub_mit'])){
+	 $user_name = $_POST['usern'];
+	 $passer = $_POST['passn'];
+	 $posit = $_POST['posn'];
+
+	 $sql1 = "INSERT INTO `users`(username, password, position) VALUES('$user_name','$passer', '$posit')";
+
+	 if(mysqli_query($conn, $sql1)){
+		 ?><html><script>alert("<?php echo 'Enployee successfully added';?>")</script></html>
+	 <?php } else {
+		 ?><html><script>alert("<?php echo 'Connection Failure';?>")</script></html>
+	 <?php }
+
+ }
+
+
+
 
  mysqli_close($conn);
 ?>
+
 
 <html>
 <head>
@@ -105,7 +123,7 @@
 									<div class="user-box">
 										<div class="u-img"><img src="assets/img/person.png"></div>
 										<div class="u-text">
-											<h4><?php $row['username']?></h4>
+											<h4><?php echo $_SESSION['position']." ".$_SESSION['username'];?></h4>
 											<p class="text-muted">example@group.com</p><a href="profile.html" class="btn btn-rounded btn-danger btn-sm">View Profile</a></div>
 										</div>
 									</li>
@@ -131,7 +149,7 @@
 						<div class="info">
 							<a class="" data-toggle="collapse" href="#collapseExample" aria-expanded="true">
 								<span>
-								<?php $row['username']?>
+								<?php echo $_SESSION['position']." ".$_SESSION['username'];?>
 
 								</span>
 							</a>
@@ -195,42 +213,31 @@
 
 				<div class="content tab-pane fade" id="assets" role="tabpanel" aria-labelledby="password-tab">
 				<div class="content">
-                    <form>
+                    <form action="dash_hr.php" method="POST">
                 <!-- Grid row -->
                 <div class="form-row">
                     <!-- Default input -->
                     <div class="form-group col-md-6">
                     <label for="inputEmail4">Name</label>
-                    <input type="name" class="form-control" id="inputEmail4" placeholder="name">
+                    <input type="name" name="usern" class="form-control" id="inputEmail4" placeholder="name">
                     </div>
                     <!-- Default input -->
                     <div class="form-group col-md-6">
                     <label for="inputPassword4">Password</label>
-                    <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
+                    <input type="password" name="passn" class="form-control" id="inputPassword4" placeholder="Password">
                     </div>
                 </div>
                 <!-- Grid row -->
 
                 <!-- Default input -->
                 <div class="form-group">
-                    <label for="inputAddress">Address</label>
-                    <input type="text" class="form-control" id="inputAddress" placeholder="Unilag">
+                    <label for="inputAddress">Position</label>
+                    <input type="text" name="posn" class="form-control" id="inputAddress" placeholder="Employer">
                 </div>
                 <!-- Grid row -->
-                <div class="form-row">
-                    <!-- Default input -->
-                    <div class="form-group col-md-6">
-                    <label for="inputCity">City</label>
-                    <input type="text" class="form-control" id="inputCity" placeholder="Unilag">
-                    </div>
-                    <!-- Default input -->
-                    <div class="form-group col-md-6">
-                    <label for="inputZip">Phone</label>
-                    <input type="text" class="form-control" id="inputZip" placeholder="phone">
-                    </div>
-                </div>
+               
                 <!-- Grid row -->
-                <button type="submit" class="btn btn-primary btn-md">Employ</button>
+                <button type="submit" name="sub_mit" class="btn btn-primary btn-md">Employ</button>
                 </form>
          </div>
 		</div>
