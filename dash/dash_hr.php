@@ -4,7 +4,12 @@
  include 'db_connect.php';
  mysqli_select_db($conn,$dbname);
  $sql = "SELECT * FROM `office items` ";
+ $sql2 = "SELECT * FROM `requests` ";
+
+ $result2 = mysqli_query($conn,$sql2);
  $result = mysqli_query($conn,$sql);
+
+ $result2 = mysqli_fetch_all($result2, MYSQLI_ASSOC);
  $result = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
  if(isset($_POST['sub_mit'])){
@@ -67,52 +72,33 @@
 							</a>
 							<ul class="dropdown-menu notif-box" aria-labelledby="navbarDropdown">
 								<li>
-									<div class="dropdown-title">You have 4 new notification</div>
+									<div class="dropdown-title">You have new notification</div>
 								</li>
 								<li>
 									<div class="notif-center">
-										<a href="#">
-											<div class="notif-icon notif-primary"> <i class="la la-user-plus"></i> </div>
-											<div class="notif-content">
-												<span class="block">
-													New user registered
-												</span>
-												<span class="time">5 minutes ago</span> 
-											</div>
-										</a>
-										<a href="#">
-											<div class="notif-icon notif-success"> <i class="la la-comment"></i> </div>
-											<div class="notif-content">
-												<span class="block">
-													Rahmad commented on Admin
-												</span>
-												<span class="time">12 minutes ago</span> 
-											</div>
-										</a>
-										<a href="#">
-											<div class="notif-img"> 
-												<img src="assets/img/person.png" alt="Img Profile">
-											</div>
-											<div class="notif-content">
-												<span class="block">
-													HR send messages to you
-												</span>
-												<span class="time">12 minutes ago</span> 
-											</div>
-										</a>
-										<a href="#">
-											<div class="notif-icon notif-danger"> <i class="la la-heart"></i> </div>
-											<div class="notif-content">
-												<span class="block">
-													Farrah liked Admin
-												</span>
-												<span class="time">17 minutes ago</span> 
-											</div>
-										</a>
+									<?php 
+											for($i=0; $i<count($result2); $i++){
+												echo 
+												'
+
+												<a href="#">
+												<div class="notif-icon notif-primary"> <i class="la la-user-plus"></i> </div>
+												<div class="notif-content">
+													<span class="block">
+													 '.$result2[$i]['username'].' requested for '.$result2[$i]['quantity'].'  '.$result2[$i]['Item'].'
+													</span>
+													<span class="time">'.$result2[$i]['time'].'</span> 
+												</div>
+												</a>
+
+												';
+											}
+										?>
+										
 									</div>
 								</li>
 								<li>
-									<a class="see-all" href="javascript:void(0);"> <strong>See all notifications</strong> <i class="la la-angle-right"></i> </a>
+									<a class="see-all" href=""> <strong>Send to Mangagr</strong> <i class="la la-angle-right"></i> </a>
 								</li>
 							</ul>
 						</li>
