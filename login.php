@@ -31,6 +31,7 @@ if(($row["username"] == $username && $row["password"] == $password) && $row["pos
      header("Location: dash/dash_worker.php"); //employee page
  } else if(($row["username"] == $username && $row["password"] == $password) && $row["position"] == 'HR'){
     $_SESSION['username'] = $username;
+    $_SESSION['position'] = $row["position"];
      ?><html><script>alert('welcome <?php echo $username ?>');</script></html><?php
      header("Location: dash/dash_hr.php"); // HR page
  }else if(($row["username"] == $username && $row["password"] == $password) && $row["position"] == 'Manager'){
